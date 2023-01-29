@@ -139,6 +139,7 @@ add_action( 'widgets_init', 'test_technique_widgets_init' );
  */
 function test_technique_scripts() {
 	wp_enqueue_style( 'test-technique-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style('landing-page', get_template_directory_uri() . '/landing-page.css', array(), _S_VERSION);
 	wp_style_add_data( 'test-technique-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'test-technique-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
@@ -149,30 +150,17 @@ function test_technique_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'test_technique_scripts' );
 
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
 
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
 
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
 
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
+add_filter('acf/settings/save_json', 'my_acf_json_save_point'); 
+function my_acf_json_save_point( $path ) {
+    
+    // update path
+    $path = get_stylesheet_directory() . '/acf';
 
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
+    // return
+    return $path;
 }
+
 
